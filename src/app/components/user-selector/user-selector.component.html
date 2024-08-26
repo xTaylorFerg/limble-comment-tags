@@ -1,0 +1,12 @@
+<div class="user-selector">
+  @if (!userService.isUserLoggedIn()) {
+    @for (user of userService.getUsers(); track $index) {
+      <button class="btn btn-primary me-2" (click)="userService.loginUser(user.username)">
+        Login as {{ user.username }}
+      </button>
+    }
+  } @else {
+    <span class="pe-2">Logged in as: {{ userService.getCurrentUsersName() }}</span>
+    <button class="btn btn-danger" (click)="userService.logoutUser()">Logout</button>
+  }
+</div>
