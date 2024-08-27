@@ -1,17 +1,5 @@
 import { signal, computed, WritableSignal } from '@angular/core';
-
-export interface User {
-  userID: number;
-  username: string;
-  isLoggedIn: boolean;
-  notifications: string[];
-}
-
-export interface Message {
-  sender: string;
-  content: string;
-  timestamp: Date;
-}
+import { Message, Notification, User } from '../interfaces';
 
 export class AppState {
   private users: WritableSignal<User[]> = signal<User[]>([
@@ -59,19 +47,26 @@ export class AppState {
 
   sendMessage(content: string) {
     const sender = this.currentUser()?.username || 'anonymous';
-    const newMessage: Message = { sender, content, timestamp: new Date() };
+    const timestamp = new Date();
+    const newMessage: Message = { sender, content, timestamp };
     const updatedMessages = [...this.messages(), newMessage];
     this.messages.set(updatedMessages);
 
-    this.notifyMentionedUsers(content);
+    const notification: Notification = {
+      from: sender,
+      message: content,
+      read: false,
+      timestamp
+    };
+    this.notifyMentionedUsers(notification);
   }
 
-  private notifyMentionedUsers(content: string) {
+  private notifyMentionedUsers(notification: Notification) {
     const updatedUsers = this.users().map(user => {
-      if (content.includes(`@${user.username}`)) {
+      if (notification.message.includes(`@${user.username}`)) {
         return {
           ...user,
-          notifications: [...user.notifications, `You were mentioned in a chat by ${this.currentUser()?.username || 'anonymous'}`]
+          notifications: [...user.notifications, notification]
         };
       }
       return user;
@@ -79,16 +74,30 @@ export class AppState {
     this.users.set(updatedUsers);
   }
 
-  getAllMessages() {
-    return computed(() => this.messages());
+  getNotifications() {
+    return this.currentUser()?.notifications || [];
   }
 
-  getCurrentUserMessages() {
-    return computed(() => this.messages().filter(message => message.sender === this.currentUser()?.username));
+  readNotifications() {
+    const updatedUsers = this.users().map(user => {
+      if (user.username === this.getCurrentUsersName()) {
+        for (let notification of user.notifications) {
+          notification.read = true;
+        }
+      }
+      return user;
+    });
+    this.users.set(updatedUsers);
   }
 
-  getCurrentUserNotifications() {
-    return computed(() => this.currentUser()?.notifications || []);
+  unreadNotifications() {
+    const notifications = this.getNotifications();
+    for (const notification of notifications) {
+      if (!notification.read) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 

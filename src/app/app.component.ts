@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ChatComponent, UserSelectorComponent, NotificationsComponent } from './components';
-import { UserService } from './services';
+import { NotificationService, UserService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +17,6 @@ import { UserService } from './services';
 })
 export class AppComponent {
 
-  constructor(public userService: UserService) {}
+  constructor(public notificationService: NotificationService, public userService: UserService) {}
 
 }

@@ -10,10 +10,6 @@ export class ChatService {
     return appState.getMessages();
   }
 
-  getAllMessages() {
-    return appState.getAllMessages();
-  }
-
   sendMessage(content: string) {
     appState.sendMessage(content);
   }

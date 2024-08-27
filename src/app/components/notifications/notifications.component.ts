@@ -1,19 +1,16 @@
-import { signal, Component, OnInit, Signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-notifications',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss'],
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent {
 
-  notifications: Signal<string[]> = signal<string[]>([]);
+  constructor(public notificationService: NotificationService) {}
 
-  constructor(private notificationService: NotificationService) {}
-
-  ngOnInit() {
-    this.notifications = this.notificationService.getNotifications();
-  }
 }

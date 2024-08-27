@@ -7,6 +7,14 @@ import { appState } from '../state/app.state';
 export class NotificationService {
 
   getNotifications() {
-    return appState.getCurrentUserNotifications();
+    return appState.getNotifications();
+  }
+
+  readNotifications() {
+    appState.readNotifications();
+  }
+
+  unreadNotifications() {
+    return appState.unreadNotifications();
   }
 }

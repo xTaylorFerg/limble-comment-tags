@@ -1,10 +1,11 @@
 <div class="notifications">
-  <h3>Notifications</h3>
-  <ul>
-    @for (notification of notifications(); track $index) {
-      <li>{{ notification }}</li>
-    } @empty {
-      <li>No notifications available</li>
-    }
-  </ul>
+  @for (notification of notificationService.getNotifications(); track $index) {
+    <div class="alert alert-warning" role="alert">
+      {{ notification.from }} mentioned you at {{ notification.timestamp | date:'shortTime' }}
+    </div>
+  } @empty {
+    <div class="alert alert-warning" role="alert">
+      No notifications available
+    </div>
+  }
 </div>
