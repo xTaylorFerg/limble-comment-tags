@@ -46,7 +46,8 @@ export class AppState {
   }
 
   sendMessage(content: string) {
-    const sender = this.currentUser()?.username || 'anonymous';
+    const sender = this.currentUser()?.username;
+    if (!sender) return;
     const timestamp = new Date();
     const newMessage: Message = { sender, content, timestamp };
     const updatedMessages = [...this.messages(), newMessage];
@@ -81,9 +82,17 @@ export class AppState {
   readNotifications() {
     const updatedUsers = this.users().map(user => {
       if (user.username === this.getCurrentUsersName()) {
-        for (let notification of user.notifications) {
-          notification.read = true;
+        let notifications = [];
+        for (let n of user.notifications) {
+          const notification: Notification = {
+            from: n.from,
+            message: n.message,
+            read: true,
+            timestamp: n.timestamp
+          };
+          notifications.push(notification);
         }
+        user.notifications = notifications;
       }
       return user;
     });
