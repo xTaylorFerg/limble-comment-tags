@@ -13,4 +13,5 @@ export class ChatService {
   sendMessage(content: string) {
     appState.sendMessage(content);
   }
+
 }

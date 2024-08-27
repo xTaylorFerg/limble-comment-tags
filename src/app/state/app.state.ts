@@ -2,6 +2,7 @@ import { signal, computed, WritableSignal } from '@angular/core';
 import { Message, Notification, User } from '../interfaces';
 
 export class AppState {
+
   private users: WritableSignal<User[]> = signal<User[]>([
     { userID: 1, username: 'Kevin', isLoggedIn: false, notifications: [] },
     { userID: 2, username: 'Jeff', isLoggedIn: false, notifications: [] },
@@ -108,6 +109,7 @@ export class AppState {
     }
     return false;
   }
+
 }
 
 export const appState = new AppState();

@@ -17,4 +17,5 @@ export class NotificationService {
   unreadNotifications() {
     return appState.unreadNotifications();
   }
+
 }
