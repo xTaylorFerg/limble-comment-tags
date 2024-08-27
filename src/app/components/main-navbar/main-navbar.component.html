@@ -1,7 +1,7 @@
 <div class="user-selector d-flex justify-content-between align-items-center">
 
   @if (userService.isUserLoggedIn()) {
-    <button class="btn btn-danger" (click)="userService.logoutUser()">Logout</button>
+    <button class="btn btn-danger btn-custom-width" (click)="userService.logoutUser()">Logout</button>
   } @else {
     @for (user of userService.getUsers(); track $index) {
       <button class="btn btn-primary" (click)="userService.loginUser(user.username)">
@@ -19,7 +19,7 @@
   @if (userService.isUserLoggedIn()) {
     <div>
       @if (notificationService.unreadNotifications()) {
-        <button class="btn btn-warning ms-auto"
+        <button class="btn btn-warning ms-auto btn-custom-width"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#notificationsOffcanvas"
@@ -28,7 +28,7 @@
           Notifications
         </button>
       } @else {
-        <button class="btn btn-success ms-auto"
+        <button class="btn btn-success ms-auto btn-custom-width"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#notificationsOffcanvas"
