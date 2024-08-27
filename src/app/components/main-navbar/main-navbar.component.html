@@ -4,7 +4,7 @@
     <button class="btn btn-danger btn-custom-width" (click)="userService.logoutUser()">Logout</button>
   } @else {
     @for (user of userService.getUsers(); track $index) {
-      <button class="btn btn-primary" (click)="userService.loginUser(user.username)">
+      <button class="btn btn-success" (click)="userService.loginUser(user.username)">
         Login as {{ user.username }}
       </button>
     }
