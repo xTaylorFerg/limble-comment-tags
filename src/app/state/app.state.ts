@@ -3,6 +3,7 @@ import { Message, Notification, User } from '../interfaces';
 
 export class AppState {
 
+  // Signals for Users and Messages
   private users: WritableSignal<User[]> = signal<User[]>([
     { userID: 1, username: 'Kevin', isLoggedIn: false, notifications: [] },
     { userID: 2, username: 'Jeff', isLoggedIn: false, notifications: [] },
@@ -12,15 +13,18 @@ export class AppState {
 
   private messages: WritableSignal<Message[]> = signal<Message[]>([]);
 
+  // Computed Signal for Current User
   private currentUser = computed(() =>
     this.users().find(user => user.isLoggedIn)
   );
 
-  isUserLoggedIn() {
-    return (this.currentUser()?.isLoggedIn) ? true : false;
+  // ---- User Functions ---- //
+
+  isUserLoggedIn(): boolean {
+    return !!this.currentUser();
   }
 
-  getCurrentUsersName() {
+  getCurrentUsersName(): string | undefined {
     return this.currentUser()?.username;
   }
 
@@ -28,88 +32,62 @@ export class AppState {
     return this.users();
   }
 
+  loginUser(username: string): void {
+    this.users.set(this.users().map(user =>
+      ({ ...user, isLoggedIn: user.username === username })
+    ));
+  }
+
+  logoutUser(): void {
+    this.users.set(this.users().map(user => ({ ...user, isLoggedIn: false })));
+  }
+
+  // ---- Message Functions ---- //
+
   getMessages(): Message[] {
     return this.messages();
   }
 
-  loginUser(username: string) {
-    const updatedUsers = this.users().map(user =>
-      user.username === username
-        ? { ...user, isLoggedIn: true }
-        : { ...user, isLoggedIn: false }
-    );
-    this.users.set(updatedUsers);
-  }
-
-  logoutUser() {
-    const updatedUsers = this.users().map(user => ({ ...user, isLoggedIn: false }));
-    this.users.set(updatedUsers);
-  }
-
-  sendMessage(content: string) {
+  sendMessage(content: string): void {
     const sender = this.currentUser()?.username;
     if (!sender) return;
-    const timestamp = new Date();
-    const newMessage: Message = { sender, content, timestamp };
-    const updatedMessages = [...this.messages(), newMessage];
-    this.messages.set(updatedMessages);
+    const newMessage: Message = { sender, content, timestamp: new Date() };
+    this.messages.set([...this.messages(), newMessage]);
 
-    const notification: Notification = {
+    this.notifyMentionedUsers({
       from: sender,
       message: content,
       read: false,
-      timestamp
-    };
-    this.notifyMentionedUsers(notification);
-  }
-
-  private notifyMentionedUsers(notification: Notification) {
-    const updatedUsers = this.users().map(user => {
-      if (notification.message.includes(`@${user.username}`)) {
-        return {
-          ...user,
-          notifications: [...user.notifications, notification]
-        };
-      }
-      return user;
+      timestamp: new Date()
     });
-    this.users.set(updatedUsers);
   }
 
-  getNotifications() {
+  // ---- Notification Functions ---- //
+
+  private notifyMentionedUsers(notification: Notification): void {
+    this.users.set(this.users().map(user =>
+      notification.message.includes(`@${user.username}`)
+        ? { ...user, notifications: [...user.notifications, notification] }
+        : user
+    ));
+  }
+
+  getNotifications(): Notification[] {
     return this.currentUser()?.notifications || [];
   }
 
-  readNotifications() {
-    const updatedUsers = this.users().map(user => {
+  readNotifications(): void {
+    this.users.set(this.users().map(user => {
       if (user.username === this.getCurrentUsersName()) {
-        let notifications = [];
-        for (let n of user.notifications) {
-          const notification: Notification = {
-            from: n.from,
-            message: n.message,
-            read: true,
-            timestamp: n.timestamp
-          };
-          notifications.push(notification);
-        }
-        user.notifications = notifications;
+        user.notifications = user.notifications.map(n => ({ ...n, read: true }));
       }
       return user;
-    });
-    this.users.set(updatedUsers);
+    }));
   }
 
-  unreadNotifications() {
-    const notifications = this.getNotifications();
-    for (const notification of notifications) {
-      if (!notification.read) {
-        return true;
-      }
-    }
-    return false;
+  unreadNotifications(): boolean {
+    return this.getNotifications().some(notification => !notification.read);
   }
-
 }
 
 export const appState = new AppState();
