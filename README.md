@@ -9,7 +9,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 # Feature Description
 Login as any of the users and send a chat message. Use @username to tag any of the other 3 users in a message. You can confirm the suggested selection with 'UP/DOWN' arrow keys and 'Enter' or use your mouse to click on one of the suggested names. Keep typing to filter out other names.
 
-Logout and check other user's perspective to see the Notification for that @username tag and the updated chat log.
+Logout and check the other user's perspective to see the Notification for that @username tag and the updated chat log.
 
 Default users are Kevin, Jeff, Bryan, and Gabbey.
 
