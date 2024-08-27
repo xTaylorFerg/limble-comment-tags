@@ -1,0 +1,42 @@
+<div class="user-selector d-flex justify-content-between align-items-center">
+
+  @if (userService.isUserLoggedIn()) {
+    <button class="btn btn-danger" (click)="userService.logoutUser()">Logout</button>
+  } @else {
+    @for (user of userService.getUsers(); track $index) {
+      <button class="btn btn-primary" (click)="userService.loginUser(user.username)">
+        Login as {{ user.username }}
+      </button>
+    }
+  }
+ 
+  @if (userService.isUserLoggedIn()) {
+    <div class="text-center flex-grow-1">
+      <strong>{{ userService.getCurrentUsersName() }}</strong>
+    </div>
+  }
+
+  @if (userService.isUserLoggedIn()) {
+    <div>
+      @if (notificationService.unreadNotifications()) {
+        <button class="btn btn-warning ms-auto"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#notificationsOffcanvas"
+          aria-controls="notificationsOffcanvas"
+          (click)="notificationService.readNotifications()">
+          Notifications
+        </button>
+      } @else {
+        <button class="btn btn-success ms-auto"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#notificationsOffcanvas"
+          aria-controls="notificationsOffcanvas">
+          Notifications
+        </button>
+      }
+    </div>
+  }
+  
+</div>

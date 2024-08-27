@@ -1,22 +1,27 @@
-<div class="chat-window">
-  @for (message of chatService.getMessages(); track $index) {
-    @if (message.sender !== userService.getCurrentUsersName()) {
+<div class="row pt-3">
+  <div class="col">
+    @for (message of chatService.getMessages(); track $index) {
+      @if (message.sender !== userService.getCurrentUsersName()) {
+        <div class="alert alert-light" role="alert">
+          <small>{{ message.timestamp | date:'shortTime' }} </small>
+          <strong>{{ message.sender }}:</strong>
+          <span class="d-block" [innerHTML]="message.content | highlightUsername"></span>
+        </div>
+      } @else {
+        <div class="alert alert-primary" role="alert">
+          <small>{{ message.timestamp | date:'shortTime' }} </small>
+          <strong>{{ message.sender }}:</strong>
+          <span class="d-block" [innerHTML]="message.content | highlightUsername"></span>
+        </div>
+      }
+    } @empty {
       <div class="alert alert-light" role="alert">
-        <span>{{ message.timestamp | date:'shortTime' }} </span><strong>{{ message.sender }}:</strong> {{ message.content }}
-      </div>
-    } @else {
-      <div class="alert alert-primary" role="alert">
-        <span>{{ message.timestamp | date:'shortTime' }} </span><strong>{{ message.sender }}:</strong> {{ message.content }}
+        <span>No messages</span>
       </div>
     }
-  } @empty {
-    <div class="alert alert-light" role="alert">
-      <span>No messages</span>
-    </div>
-  }
+  </div>
 </div>
-
-<div class="pb-2 row">
+<div class="row pb-3">
   <div class="col">
     <input
       class="form-control"

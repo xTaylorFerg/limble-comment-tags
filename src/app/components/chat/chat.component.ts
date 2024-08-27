@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService, UserService } from '../../services';
 import { User } from '../../interfaces'
+import { HighlightUsernamePipe } from '../../pipes';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HighlightUsernamePipe],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })

@@ -6,27 +6,7 @@
   <main>
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid justify-content-center">
-        <app-user-selector></app-user-selector>
-        @if (userService.isUserLoggedIn()) {
-          @if (notificationService.unreadNotifications()) {
-            <button class="btn btn-warning ms-2"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#notificationsOffcanvas"
-              aria-controls="notificationsOffcanvas"
-              (click)="notificationService.readNotifications()">
-              Notifications
-            </button>
-          } @else {
-            <button class="btn btn-success ms-2"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#notificationsOffcanvas"
-              aria-controls="notificationsOffcanvas">
-              Notifications
-            </button>
-          }
-        }
+        <app-main-navbar class="w-100"></app-main-navbar>
       </div>
     </nav>
 
@@ -35,17 +15,19 @@
     }
   </main>
 
-  <footer class="bg-secondary text-white text-center py-3">
+  <footer class="bg-success text-white text-center py-3">
     <p>© 2024 LimbleChat</p>
   </footer>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="notificationsOffcanvas" aria-labelledby="notificationsOffcanvasLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="notificationsOffcanvasLabel">Notifications</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+@if (userService.isUserLoggedIn()) {
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationsOffcanvas" aria-labelledby="notificationsOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="notificationsOffcanvasLabel">Notifications</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <app-notifications></app-notifications>
+    </div>
   </div>
-  <div class="offcanvas-body">
-    <app-notifications></app-notifications>
-  </div>
-</div>
+}

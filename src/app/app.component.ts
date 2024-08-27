@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ChatComponent, UserSelectorComponent, NotificationsComponent } from './components';
-import { NotificationService, UserService } from './services';
+import { ChatComponent, MainNavbarComponent, NotificationsComponent } from './components';
+import { UserService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { NotificationService, UserService } from './services';
   imports: [
     RouterOutlet,
     ChatComponent,
-    UserSelectorComponent,
+    MainNavbarComponent,
     NotificationsComponent,
   ],
   templateUrl: './app.component.html',
@@ -17,6 +17,6 @@ import { NotificationService, UserService } from './services';
 })
 export class AppComponent {
 
-  constructor(public notificationService: NotificationService, public userService: UserService) {}
+  constructor(public userService: UserService) {}
 
 }
