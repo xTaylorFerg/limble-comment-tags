@@ -29,7 +29,7 @@ export class AppComponent {
   }
 
   scrollTimeout() {
-    setTimeout(() => this.scrollFunction(), 1000);
+    setTimeout(() => this.scrollFunction(), 250);
   }
 
   scrollFunction() {

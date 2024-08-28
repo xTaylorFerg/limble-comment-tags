@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { NotificationService, UserService } from '../../services';
 
 @Component({
@@ -10,6 +10,11 @@ import { NotificationService, UserService } from '../../services';
 })
 export class MainNavbarComponent {
 
+  @Output() scrollOnLogin = new EventEmitter();
+
   constructor(public notificationService: NotificationService, public userService: UserService) {}
 
+  scrollToBottom() {
+    this.scrollOnLogin.emit();
+  }
 }
