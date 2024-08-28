@@ -1,55 +1,27 @@
-<div class="row pt-3">
-  <div class="col">
-    @for (message of chatService.getMessages(); track $index) {
-      @if (message.sender !== userService.getCurrentUsersName()) {
-        <div class="alert alert-light" role="alert">
-          <small>{{ message.timestamp | date:'shortTime' }} </small>
-          <strong>{{ message.sender }}:</strong>
-          <span class="d-block" [innerHTML]="message.content | highlightUsername"></span>
-        </div>
-      } @else {
-        <div class="alert alert-primary" role="alert">
-          <small>{{ message.timestamp | date:'shortTime' }} </small>
-          <strong>{{ message.sender }}:</strong>
-          <span class="d-block" [innerHTML]="message.content | highlightUsername"></span>
-        </div>
-      }
-    } @empty {
+<div class="pt-3 px-3">
+  @for (message of chatService.getMessages(); track $index) {
+    @if (message.sender !== userService.getCurrentUsersName()) {
+
       <div class="alert alert-light" role="alert">
-        <span>No messages</span>
+        <small>{{ message.timestamp | date:'shortTime' }} </small>
+        <strong>{{ message.sender }}:</strong>
+        <span class="d-block" [innerHTML]="message.content | highlightUsername"></span>
       </div>
+
+    } @else {
+
+      <div class="alert alert-primary" role="alert">
+        <small>{{ message.timestamp | date:'shortTime' }} </small>
+        <strong>{{ message.sender }}:</strong>
+        <span class="d-block" [innerHTML]="message.content | highlightUsername"></span>
+      </div>
+
     }
-  </div>
-</div>
-<div class="row pb-3">
-  <div class="col">
-    <input
-      class="form-control"
-      #messageInput
-      type="text"
-      list="dataListSuggestions"
-      placeholder="Type a message..."
-      (keydown)="onKeydown($event)"
-      (keyup)="onKeyup($event)"
-      [(ngModel)]="messageText"
-    />
-  </div>
-  <div class="col-auto">
-    <button class="btn btn-primary" (click)="chatService.sendMessage(messageInput.value); messageInput.value=''">Send</button>
-  </div>
-</div>
-<div class="row">
-  @if (suggestions.length > 0) {
-    <div class="suggestions ">
-      @for (suggestion of suggestions; track $index) {
-        <div
-          [id]="'suggestionItem-' + $index"
-          class="suggestion-item"
-          [ngClass]="{ 'selected': $index === selectedSuggestionIndex }"
-          (click)="onSelectSuggestion(suggestion.username)">
-          {{ suggestion.username }}
-        </div>
-      }
+  } @empty {
+
+    <div class="alert alert-light" role="alert">
+      <span>No messages</span>
     </div>
+
   }
 </div>

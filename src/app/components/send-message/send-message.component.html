@@ -1,0 +1,34 @@
+
+
+<div class="row send-message py-3">
+
+  <div class="col">
+    <input
+      class="form-control"
+      #messageInput
+      type="text"
+      list="dataListSuggestions"
+      placeholder="Type a message..."
+      (keydown)="onKeydown($event)"
+      (keyup)="onKeyup($event)"
+      [(ngModel)]="messageText"
+    />
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary" (click)="chatService.sendMessage(messageInput.value); messageInput.value=''">Send</button>
+  </div>
+  
+</div>
+@if (suggestions.length > 0) {
+  <div class="suggestions">
+    @for (suggestion of suggestions; track $index) {
+      <div
+        [id]="'suggestionItem-' + $index"
+        class="suggestion-item"
+        [ngClass]="{ 'selected': $index === selectedSuggestionIndex }"
+        (click)="onSelectSuggestion(suggestion.username)">
+        {{ suggestion.username }}
+      </div>
+    }
+  </div>
+}

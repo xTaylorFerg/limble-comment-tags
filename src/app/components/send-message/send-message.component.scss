@@ -1,0 +1,20 @@
+.suggestions {
+  border: 1px solid #ccc;
+  background-color: white;
+  z-index: 1000;
+  position: relative;
+  top: -200px;
+}
+.suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+.selected {
+  background-color: #b6b6b6;
+}
+.send-message {
+  border-top: #ccc 1px solid;
+}

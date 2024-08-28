@@ -1,23 +1,40 @@
-<div class="container-fluid">
-  <header class="bg-primary text-white text-center py-3">
-    <h1>LimbleChat</h1>
-  </header>
+<div class="container-fluid" style="height: 100vh;">
+  <div class="row bg-primary text-white text-center py-3" style="height: 8%;">
+    <h1 class="mb-0">LimbleChat</h1>
+  </div>
 
-  <main>
+  <div class="row" style="height: 8%;">
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid justify-content-center">
         <app-main-navbar class="py-2 w-100"></app-main-navbar>
       </div>
     </nav>
+  </div>
 
-    @if(userService.isUserLoggedIn()) {
-      <app-chat></app-chat>
-    }
-  </main>
+  <div class="row" style="height: 80%;">
+    <div class="col" style="height: 100%;">
+      @if (userService.isUserLoggedIn()) {
+        <div id="messages" class="row" style="height: 90%; overflow-y: auto;">
+          <app-chat></app-chat>
+        </div>
+        <div class="row" style="height: 10%;">
+          <app-send-message></app-send-message>
+        </div>
+      } @else {
+        <div class="row" style="height: 100%;">
+          <div class="p-3">
+            <div class="alert alert-light" role="alert">
+              <span>Please Login</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
 
-  <footer class="bg-primary text-white text-center py-3">
-    <p>© 2024 LimbleChat</p>
-  </footer>
+  <div class="row bg-primary text-white text-center pt-1" style="height: 4%;">
+    <span>© 2024 LimbleChat</span>
+  </div>
 </div>
 
 @if (userService.isUserLoggedIn()) {
