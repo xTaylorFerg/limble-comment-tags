@@ -14,7 +14,9 @@ export class MainNavbarComponent {
 
   constructor(public notificationService: NotificationService, public userService: UserService) {}
 
-  scrollToBottom() {
+  loginButtonClicked(username: string) {
+    this.userService.loginUser(username);
     this.scrollOnLogin.emit();
   }
+
 }

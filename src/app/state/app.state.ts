@@ -18,6 +18,17 @@ export class AppState {
     this.users().find(user => user.isLoggedIn)
   );
 
+  // for unit tests
+  resetState() {
+    this. users.set([
+      { userID: 1, username: 'Kevin', isLoggedIn: false, notifications: [] },
+      { userID: 2, username: 'Jeff', isLoggedIn: false, notifications: [] },
+      { userID: 3, username: 'Bryan', isLoggedIn: false, notifications: [] },
+      { userID: 4, username: 'Gabbey', isLoggedIn: false, notifications: [] },
+    ]);
+    this.messages.set([]);
+  }
+
   // ---- User Functions ---- //
 
   isUserLoggedIn(): boolean {

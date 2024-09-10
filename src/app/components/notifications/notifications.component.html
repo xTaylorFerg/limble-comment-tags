@@ -1,6 +1,6 @@
 <div class="notifications">
   @for (notification of notificationService.getNotifications(); track $index) {
-    <div class="alert alert-warning" role="alert">
+    <div [id]="'notification-' + $index" class="alert alert-warning" role="alert">
       {{ notification.from }} mentioned you at {{ notification.timestamp | date:'shortTime' }}
     </div>
   } @empty {

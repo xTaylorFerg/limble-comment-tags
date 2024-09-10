@@ -19,6 +19,8 @@ export class SendMessageComponent {
   suggestions: User[] = [];
   selectedSuggestionIndex: number = -1;
 
+  testAtIndex = -1;
+
   constructor(public chatService: ChatService, public userService: UserService) {}
 
   onKeyup(event: KeyboardEvent) {
@@ -54,9 +56,9 @@ export class SendMessageComponent {
   }
 
   onSelectSuggestion(suggestion: string) {
-    const atIndex = this.messageText.lastIndexOf('@');
-    if (atIndex !== -1) {
-      this.messageText = this.messageText.slice(0, atIndex + 1) + suggestion + ' ';
+    this.testAtIndex = this.messageText.lastIndexOf('@');
+    if (this.testAtIndex !== -1) {
+      this.messageText = this.messageText.slice(0, this.testAtIndex + 1) + suggestion + ' ';
     }
 
     this.suggestions = [];
